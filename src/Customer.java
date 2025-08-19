@@ -1,6 +1,6 @@
 public class Customer {
     private static int nextId = 1;
-    private int custId;
+    private final int custId;
     private String name;
     private String email;
     private String skillLevel;
