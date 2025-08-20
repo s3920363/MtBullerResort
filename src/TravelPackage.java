@@ -18,7 +18,7 @@ public class TravelPackage {
         this.days = days;
     }
 
-    
+
     public void attachAccommodation(Accommodation acc) {
         this.acc = acc;
         acc.setAvailable(false);
@@ -47,7 +47,7 @@ public class TravelPackage {
     @Override
     public String toString() {
         return String.format(
-                "Package { id: %d, customer: \"%s\", accommodation: %s, date: %s, days: %d }",
+                "Package %d { customer: \"%s\", accommodation: %s, date: %s, days: %d }",
                 pkgID,
                 cust.getName(),
                 acc.getType(),
