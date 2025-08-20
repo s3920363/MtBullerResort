@@ -1,6 +1,7 @@
 public class Customer {
     private static int nextID = 1;
     private final int custID = nextID++;
+    boolean hasPackage = false;
     private String name;
     private String email;
     private String skillLevel;
@@ -40,6 +41,14 @@ public class Customer {
 
     public void setSkillLevel(String skillLevel) {
         this.skillLevel = skillLevel;
+    }
+
+    public void setHasPackage() {
+        this.hasPackage = true;
+    }
+
+    public boolean inPackage() {
+        return hasPackage;
     }
 
     @Override
