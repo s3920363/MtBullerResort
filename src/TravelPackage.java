@@ -9,7 +9,7 @@ public class TravelPackage {
     private LocalDate date;
 
     public TravelPackage() {
-
+        
     }
 
     public TravelPackage(Customer cust, LocalDate date, int days) {
