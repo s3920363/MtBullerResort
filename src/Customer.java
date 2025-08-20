@@ -1,6 +1,6 @@
 public class Customer {
-    private static int nextId = 1;
-    private final int custId = nextId++;
+    private static int nextID = 1;
+    private final int custID = nextID++;
     private String name;
     private String email;
     private String skillLevel;
@@ -12,6 +12,10 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.skillLevel = skillLevel;
+    }
+
+    public int getID() {
+        return custID;
     }
 
     public String getName() {
@@ -43,7 +47,7 @@ public class Customer {
         // Construct and return a string that describes the customer.
         return String.format(
                 "{ id: %d, name: \"%s\", email: \"%s\", skillLevel: \"%s\" }",
-                custId, name, email, skillLevel
+                custID, name, email, skillLevel
         );
     }
 

@@ -17,4 +17,42 @@ public class TravelPackage {
         this.date = date;
         this.days = days;
     }
+
+    
+    public void attachAccommodation(Accommodation acc) {
+        this.acc = acc;
+        acc.setAvailable(false);
+    }
+
+    public int getID() {
+        return pkgID;
+    }
+
+    public Customer getCustomer() {
+        return cust;
+    }
+
+    public Accommodation getAccommodation() {
+        return acc;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Package { id: %d, customer: \"%s\", accommodation: %s, date: %s, days: %d }",
+                pkgID,
+                cust.getName(),
+                acc.getType(),
+                date,
+                days
+        );
+    }
 }

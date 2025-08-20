@@ -15,20 +15,8 @@ public class Accommodation {
 
     }
 
-    public static void main(String[] args) {
-        Accommodation a1 = new Accommodation("Cabin", 200);
-        Accommodation a2 = new Accommodation("Hotel Room", 400);
-
-        // Print accommodations
-        System.out.println(a1);
-        System.out.println(a2);
-
-        a1.setAvailable(false);
-        a2.setAvailable(false);
-
-        System.out.println(a1);
-        System.out.println(a2);
-
+    public int getID() {
+        return accID;
     }
 
     public String getType() {
