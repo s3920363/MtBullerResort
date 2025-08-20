@@ -1,19 +1,34 @@
 public class Accommodation {
+    private static int nextID = 101;
+    private final int accID = nextID++;
     private String type;
     private int price;
-    private static int nextID = 1;
-    private final int accID;
-    private boolean available;
+    private boolean available = true;
 
-    public Accommodation(){
-        this.accID = nextID++;
+    public Accommodation() {
+
     }
 
     public Accommodation(String type, int price) {
-        this.accID = nextID++;
         this.type = type;
         this.price = price;
-        this.available = true;
+
+    }
+
+    public static void main(String[] args) {
+        Accommodation a1 = new Accommodation("Cabin", 200);
+        Accommodation a2 = new Accommodation("Hotel Room", 400);
+
+        // Print accommodations
+        System.out.println(a1);
+        System.out.println(a2);
+
+        a1.setAvailable(false);
+        a2.setAvailable(false);
+
+        System.out.println(a1);
+        System.out.println(a2);
+
     }
 
     public String getType() {
@@ -46,14 +61,5 @@ public class Accommodation {
                 "{ id: %d, type: \"%s\", price: %d, available: %b }",
                 accID, type, price, available
         );
-    }
-
-    public static void main(String[] args) {
-        Accommodation a1 = new Accommodation("Cabin", 200);
-        Accommodation a2 = new Accommodation("Hotel Room", 400);
-
-        // Print accommodations
-        System.out.println(a1);
-        System.out.println(a2);
     }
 }

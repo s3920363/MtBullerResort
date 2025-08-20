@@ -1,16 +1,14 @@
 public class Customer {
     private static int nextId = 1;
-    private final int custId;
+    private final int custId = nextId++;
     private String name;
     private String email;
     private String skillLevel;
 
     public Customer() {
-        this.custId = nextId++;
     }
 
     public Customer(String name, String email, String skillLevel) {
-        this.custId = nextId++;
         this.name = name;
         this.email = email;
         this.skillLevel = skillLevel;
