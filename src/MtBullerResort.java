@@ -107,10 +107,24 @@ public class MtBullerResort {
                 String email = input.nextLine().trim();
 
                 System.out.print("Enter skill level (Beginner / Intermediate / Expert): ");
-                String skillLevel = input.nextLine().trim();
+                String skillLevel = input.nextLine().toLowerCase().trim();
 
+                // empty check
                 if (name.isEmpty() || email.isEmpty() || skillLevel.isEmpty()) {
                     throw new IllegalArgumentException("All fields must be filled.");
+                }
+
+                // no number only
+                if (!name.matches(".*[a-zA-Z].*")) {
+                    throw new IllegalArgumentException("Name must contain letters.");
+                }
+                if (!email.matches(".*[a-zA-Z].*")) {
+                    throw new IllegalArgumentException("Email must contain letters.");
+                }
+
+                // skill check
+                if (!(skillLevel.equals("beginner") || skillLevel.equals("intermediate") || skillLevel.equals("expert"))) {
+                    throw new IllegalArgumentException("Skill level must be Beginner, Intermediate, or Expert.");
                 }
 
                 Customer newCustomer = new Customer(name, email, skillLevel);
