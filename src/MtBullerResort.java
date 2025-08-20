@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -18,10 +19,16 @@ public class MtBullerResort {
         customers.add(new Customer("Diana", "diana@outlook.com", "Expert"));
 
         // Add demo accommodations
-        accommodations.add(new Accommodation("Lodge", 200));
-        accommodations.add(new Accommodation("Cabin", 150));
-        accommodations.add(new Accommodation("Apartment", 250));
-        accommodations.add(new Accommodation("Chalet", 300));
+        accommodations.add(new Accommodation("Hotel", 300));
+        accommodations.add(new Accommodation("Apartment", 220));
+        accommodations.add(new Accommodation("Lodge", 180));
+        accommodations.add(new Accommodation("Cabin", 140));
+        accommodations.add(new Accommodation("Hotel", 400));
+        accommodations.add(new Accommodation("Apartment", 275));
+        accommodations.add(new Accommodation("Lodge", 210));
+        accommodations.add(new Accommodation("Cabin", 160));
+        accommodations.add(new Accommodation("Hotel", 350));
+        accommodations.add(new Accommodation("Apartment", 260));
 
     }
 
@@ -68,36 +75,48 @@ public class MtBullerResort {
             return;
         }
 
-        System.out.println("Enter travel date (YYYY-MM-DD):");
-        String dateInput = input.next();
-        LocalDate travelDate;
-        try {
-            travelDate = LocalDate.parse(dateInput);
-        } catch (Exception e) {
-            System.out.println("Invalid date format!");
-            return;
+        LocalDate travelDate = null;
+        while (travelDate == null) {
+            System.out.print("Enter travel date (YYYY-MM-DD) or 'now': ");
+            String dateInput = input.next().trim();
+
+            if (dateInput.equalsIgnoreCase("now")) {
+                travelDate = LocalDate.now();
+            } else {
+                try {
+                    travelDate = LocalDate.parse(dateInput);
+                } catch (DateTimeParseException e) {
+                    System.out.println("Invalid date format! Please try again.");
+                }
+            }
         }
 
         System.out.println("Enter number of days:");
-        int days = input.nextInt();
+        try {
+            int days = input.nextInt();
 
-        if (days > 0) {
-            TravelPackage newPackage = new TravelPackage(selectedCustomer, travelDate, days);
-            newPackage.attachAccommodation(selectedAccommodation);
-            packages.add(newPackage);
+            if (days > 0) {
+                TravelPackage newPackage = new TravelPackage(selectedCustomer, travelDate, days);
+                newPackage.attachAccommodation(selectedAccommodation);
+                packages.add(newPackage);
+                selectedCustomer.setHasPackage();
 
-            System.out.println("Package created successfully!");
-            System.out.println(newPackage);
-        } else {
-            System.out.println("Number of days must be positive!");
+                System.out.println("Package created successfully!");
+                System.out.println(newPackage);
+            } else {
+                System.out.println("Number of days must be positive!");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please enter a valid number.");
+            input.nextLine();
         }
     }
 
     public Customer selectCustomer() {
-        Customer selectedCustomer = null;
+        Customer selected = null;
         listCustomers();
 
-        while (selectedCustomer == null) {
+        while (selected == null) {
             System.out.println("Enter customer ID (or 0 to exit):");
             try {
                 int choice = input.nextInt();
@@ -107,23 +126,26 @@ public class MtBullerResort {
                     return null;
                 }
 
-                selectedCustomer = searchCustomerByID(choice);
-                if (selectedCustomer == null) {
+                selected = searchCustomerByID(choice);
+                if (selected == null) {
                     System.out.println("Customer not found! Please try again.");
+                } else if (selected.inPackage()) {
+                    System.out.println("Customer already has a package! Please select a different customer.");
+                    selected = null;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a valid number.");
                 input.nextLine();
             }
         }
-        return selectedCustomer;
+        return selected;
     }
 
     public Accommodation selectAccommodation() {
-        Accommodation selectedAccommodation = null;
+        Accommodation selected = null;
+        listAvailableAccommodations();
 
-        while (selectedAccommodation == null) {
-            listAvailableAccommodations();
+        while (selected == null) {
             System.out.println("Enter accommodation ID (or 0 to exit):");
             try {
                 int choice = input.nextInt();
@@ -133,11 +155,11 @@ public class MtBullerResort {
                     return null;
                 }
 
-                selectedAccommodation = searchAccommodationByID(choice);
-                if (selectedAccommodation != null && !selectedAccommodation.isAvailable()) {
+                selected = searchAccommodationByID(choice);
+                if (selected != null && !selected.isAvailable()) {
                     System.out.println("Accommodation is not available! Please try again.");
-                    selectedAccommodation = null;
-                } else if (selectedAccommodation == null) {
+                    selected = null;
+                } else if (selected == null) {
                     System.out.println("Accommodation not found! Please try again.");
                 }
             } catch (InputMismatchException e) {
@@ -145,7 +167,7 @@ public class MtBullerResort {
                 input.nextLine();
             }
         }
-        return selectedAccommodation;
+        return selected;
     }
 
     public Customer searchCustomerByID(int ID) {
@@ -153,7 +175,6 @@ public class MtBullerResort {
             if (ID == customer.getID()) {
                 return customer;
             }
-
         }
         return null;
     }
