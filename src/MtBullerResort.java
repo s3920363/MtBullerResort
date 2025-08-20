@@ -18,7 +18,6 @@ public class MtBullerResort {
         customers.add(new Customer("Bob", "bob@hotmail.com", "Intermediate"));
         customers.add(new Customer("Diana", "diana@outlook.com", "Expert"));
 
-        // Add demo accommodations
         accommodations.add(new Accommodation("Hotel", 300));
         accommodations.add(new Accommodation("Apartment", 220));
         accommodations.add(new Accommodation("Lodge", 180));
@@ -30,6 +29,45 @@ public class MtBullerResort {
         accommodations.add(new Accommodation("Hotel", 350));
         accommodations.add(new Accommodation("Apartment", 260));
 
+    }
+
+    public void run() {
+        boolean running = true;
+        System.out.println("------------ Welcome to Mount Buller Resort! ------------");
+
+        while (running) {
+            try {
+                System.out.println("\n1. Display all accommodations");
+                System.out.println("2. Display available accommodations");
+                System.out.println("3. Add a customer");
+                System.out.println("4. List all customers");
+                System.out.println("5. Create a package");
+                System.out.println("6. List all packages");
+                System.out.println("11. Quit");
+
+                System.out.print("\nPlease choose an option: ");
+
+                int option = input.nextInt();
+                input.nextLine(); // consume leftover newline
+
+                switch (option) {
+                    case 1 -> listAllAccommodations();
+                    case 2 -> listAvailableAccommodations();
+                    case 3 -> addCustomer();
+                    case 4 -> listCustomers();
+                    case 5 -> addPackage();
+                    case 6 -> listPackages();
+                    case 11 -> {
+                        running = false;
+                        System.out.println("Goodbye!");
+                    }
+                    default -> System.out.println("Invalid option.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a number.");
+                input.nextLine();
+            }
+        }
     }
 
     public void listCustomers() {
@@ -54,6 +92,39 @@ public class MtBullerResort {
                 System.out.println(accommodation);
             }
 
+        }
+    }
+
+    public void addCustomer() {
+        boolean valid = false;
+
+        while (!valid) {
+            try {
+                System.out.print("Enter customer name: ");
+                String name = input.nextLine().trim();
+
+                System.out.print("Enter customer email: ");
+                String email = input.nextLine().trim();
+
+                System.out.print("Enter skill level (Beginner / Intermediate / Advanced): ");
+                String skillLevel = input.nextLine().trim();
+
+                if (name.isEmpty() || email.isEmpty() || skillLevel.isEmpty()) {
+                    throw new IllegalArgumentException("All fields must be filled.");
+                }
+
+                Customer newCustomer = new Customer(name, email, skillLevel);
+                customers.add(newCustomer);
+
+                System.out.println("\nCustomer added successfully: " + newCustomer);
+                valid = true;
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage() + " Please try again.\n");
+            } catch (Exception e) {
+                System.out.println("Unexpected error: " + e.getMessage());
+                input.nextLine();
+            }
         }
     }
 
@@ -122,7 +193,7 @@ public class MtBullerResort {
                 int choice = input.nextInt();
 
                 if (choice == 0) {
-                    System.out.println("Customer selection cancelled.");
+                    System.out.println("Package creation cancelled.");
                     return null;
                 }
 
@@ -151,7 +222,7 @@ public class MtBullerResort {
                 int choice = input.nextInt();
 
                 if (choice == 0) {
-                    System.out.println("Accommodation selection cancelled.");
+                    System.out.println("Package creation cancelled.");
                     return null;
                 }
 
