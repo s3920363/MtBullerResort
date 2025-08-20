@@ -106,7 +106,7 @@ public class MtBullerResort {
                 System.out.print("Enter customer email: ");
                 String email = input.nextLine().trim();
 
-                System.out.print("Enter skill level (Beginner / Intermediate / Advanced): ");
+                System.out.print("Enter skill level (Beginner / Intermediate / Expert): ");
                 String skillLevel = input.nextLine().trim();
 
                 if (name.isEmpty() || email.isEmpty() || skillLevel.isEmpty()) {
