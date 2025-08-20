@@ -3,5 +3,7 @@ public class MtBullerAdmin {
         MtBullerResort mt = new MtBullerResort();
         mt.populateLists();
         mt.addPackage();
+        mt.listAllAccommodations();
+        mt.addPackage();
     }
 }
