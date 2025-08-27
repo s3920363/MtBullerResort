@@ -160,6 +160,46 @@ public class MtBullerResort {
         if (selectedPkg == null) {
             return;
         }
+
+        LiftPass pass = null;
+
+        while (true) {
+            try {
+                System.out.print("Select Lift Pass type (Daily/Season): ");
+                String type = input.nextLine().trim();
+
+                if (type.equalsIgnoreCase("Season")) {
+                    pass = new LiftPass("Season", 0);
+                    break; // valid input, exit loop
+
+                } else if (type.equalsIgnoreCase("Daily")) {
+                    System.out.print("Enter number of days: ");
+                    int days = Integer.parseInt(input.nextLine().trim());
+
+                    if (days <= 0) {
+                        throw new IllegalArgumentException("Days must be greater than 0.");
+                    }
+
+                    pass = new LiftPass("Daily", days);
+                    break; // valid input, exit loop
+
+                } else {
+                    throw new IllegalArgumentException("Invalid type. Enter 'Daily' or 'Season'.");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Please enter a valid number for days.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Unexpected error: " + e.getMessage());
+            }
+        }
+
+        // Attach to the package
+        selectedPkg.setLiftPass(pass);
+        System.out.println("Lift pass added successfully!");
+        System.out.println(selectedPkg);
     }
 
     public void addPackage() {
@@ -189,24 +229,31 @@ public class MtBullerResort {
             }
         }
 
-        System.out.println("Enter number of days:");
-        try {
-            int days = input.nextInt();
+        int days = -1;
+        while (days < 0) {
+            System.out.print("Enter number of days: ");
 
-            if (days > 0) {
-                TravelPackage newPackage = new TravelPackage(selectedCustomer, travelDate, days);
-                newPackage.attachAccommodation(selectedAccommodation);
-                packages.add(newPackage);
-                selectedCustomer.setHasPackage();
+            try {
+                days = input.nextInt();
+                input.nextLine();
 
-                System.out.println("Package created successfully!");
-                System.out.println(newPackage);
-            } else {
-                System.out.println("Number of days must be positive!");
+                if (days > 0) {
+                    TravelPackage newPackage = new TravelPackage(selectedCustomer, travelDate, days);
+                    newPackage.attachAccommodation(selectedAccommodation);
+                    packages.add(newPackage);
+                    selectedCustomer.setHasPackage();
+
+                    System.out.println("Package created successfully!");
+                    System.out.println(newPackage);
+                } else {
+                    System.out.println("Number of days must be positive!");
+                    days = -1; // keep looping
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+                input.nextLine(); // clear invalid input
+                days = -1; // keep looping
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input! Please enter a valid number.");
-            input.nextLine();
         }
     }
 
@@ -221,6 +268,7 @@ public class MtBullerResort {
             System.out.println("Enter customer ID (or 0 to exit):");
             try {
                 int choice = input.nextInt();
+                input.nextLine();
 
                 if (choice == 0) {
                     System.out.println("Package creation cancelled.");
@@ -229,13 +277,12 @@ public class MtBullerResort {
 
                 //search customer by ID
                 selected = searchCustomerByID(choice);
-                //if found but already in package
-                if (selected != null && selected.inPackage()) {
+
+                if (selected == null) {
+                    System.out.println("Customer not found! Please try again.");
+                } else if (selected.inPackage()) {
                     System.out.println("Customer already has a package! Please select a different customer.");
                     selected = null;
-                } else {
-                    System.out.println("Customer not found! Please try again.");
-
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a valid number.");
@@ -254,6 +301,7 @@ public class MtBullerResort {
             System.out.println("Enter accommodation ID (or 0 to exit):");
             try {
                 int choice = input.nextInt();
+                input.nextLine();
 
                 if (choice == 0) {
                     System.out.println("Package creation cancelled.");
@@ -261,12 +309,12 @@ public class MtBullerResort {
                 }
 
                 selected = searchAccommodationByID(choice);
-                //if found but is not available
-                if (selected != null && !selected.isAvailable()) {
+
+                if (selected == null) {
+                    System.out.println("Accommodation not found! Please try again.");
+                } else if (!selected.isAvailable()) {
                     System.out.println("Accommodation is not available! Please try again.");
                     selected = null;
-                } else if (selected == null) {
-                    System.out.println("Accommodation not found! Please try again.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a valid number.");
@@ -284,6 +332,7 @@ public class MtBullerResort {
             System.out.println("Enter package ID (or 0 to exit):");
             try {
                 int choice = input.nextInt();
+                input.nextLine();
 
                 if (choice == 0) {
                     System.out.println("Action cancelled.");
@@ -292,11 +341,11 @@ public class MtBullerResort {
 
                 selected = searchPackageByID(choice);
                 // if found but has lift pass
-                if (selected != null && selected.getHasLiftPass()) {
+                if (selected == null) {
+                    System.out.println("Package not found! Please try again.");
+                } else if (selected.getHasLiftPass()) {
                     System.out.println("Package already has a Lift Pass!");
                     selected = null;
-                } else {
-                    System.out.println("Package not found! Please try again.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a valid number.");
