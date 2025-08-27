@@ -115,15 +115,7 @@ public class MtBullerResort {
                 if (name.isEmpty() || email.isEmpty() || skillLevel.isEmpty()) {
                     throw new IllegalArgumentException("All fields must be filled.");
                 }
-
-                // no number only
-                if (!name.matches(".*[a-zA-Z].*")) {
-                    throw new IllegalArgumentException("Name must contain letters.");
-                }
-                if (!email.matches(".*[a-zA-Z].*")) {
-                    throw new IllegalArgumentException("Email must contain letters.");
-                }
-
+                
                 // skill check
                 if (!(skillLevel.equals("beginner") || skillLevel.equals("intermediate") || skillLevel.equals("expert"))) {
                     throw new IllegalArgumentException("Skill level must be Beginner, Intermediate, or Expert.");
@@ -196,7 +188,7 @@ public class MtBullerResort {
             }
         }
 
-        // Attach to the package
+        //attach to the package
         selectedPkg.setLiftPass(pass);
         System.out.println("Lift pass added successfully!");
         System.out.println(selectedPkg);
