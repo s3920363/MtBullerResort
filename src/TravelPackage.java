@@ -2,14 +2,14 @@ import java.time.LocalDate;
 
 public class TravelPackage {
     private static int nextID = 1;
-    private int pkgID = nextID++;
+    private final int pkgID = nextID++;
     private int days;
     private Customer cust;
     private Accommodation acc;
     private LocalDate date;
 
     public TravelPackage() {
-        
+
     }
 
     public TravelPackage(Customer cust, LocalDate date, int days) {
@@ -44,6 +44,10 @@ public class TravelPackage {
         return days;
     }
 
+    public void setDays(int days) {
+        this.days = days;
+    }
+
     @Override
     public String toString() {
         return String.format(
@@ -56,3 +60,4 @@ public class TravelPackage {
         );
     }
 }
+
