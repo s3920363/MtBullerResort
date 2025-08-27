@@ -13,10 +13,10 @@ public class MtBullerResort {
     Scanner input = new Scanner(System.in);
 
     public void populateLists() {
-        customers.add(new Customer("John", "john@gmail.com", "Expert"));
-        customers.add(new Customer("Alice", "alice@yahoo.com", "Beginner"));
-        customers.add(new Customer("Bob", "bob@hotmail.com", "Intermediate"));
-        customers.add(new Customer("Diana", "diana@outlook.com", "Expert"));
+        customers.add(new Customer("John", "john@gmail.com", "expert"));
+        customers.add(new Customer("Alice", "alice@yahoo.com", "beginner"));
+        customers.add(new Customer("Bob", "bob@hotmail.com", "intermediate"));
+        customers.add(new Customer("Diana", "diana@outlook.com", "expert"));
 
         accommodations.add(new Accommodation("Hotel", 300));
         accommodations.add(new Accommodation("Apartment", 220));
@@ -43,6 +43,7 @@ public class MtBullerResort {
                 System.out.println("4. List all customers");
                 System.out.println("5. Create a package");
                 System.out.println("6. List all packages");
+                System.out.println("7. Add a Lift Pass");
                 System.out.println("11. Quit");
 
                 System.out.print("\nPlease choose an option: ");
@@ -145,13 +146,20 @@ public class MtBullerResort {
 
     public void listPackages() {
         System.out.println("\n----- Packages -----");
-        for (TravelPackage pkg : packages) {
-            System.out.println(pkg);
+        if (packages.isEmpty())
+            System.out.println("There are no packages.");
+        else {
+            for (TravelPackage pkg : packages) {
+                System.out.println(pkg);
+            }
         }
     }
 
     public void addLiftPass() {
-        
+        TravelPackage selectedPkg = selectPackage();
+        if (selectedPkg == null) {
+            return;
+        }
     }
 
     public void addPackage() {
@@ -202,10 +210,13 @@ public class MtBullerResort {
         }
     }
 
+    //returns a valid customer
     public Customer selectCustomer() {
         Customer selected = null;
+        //display customers
         listCustomers();
 
+        //prompt until correct selection
         while (selected == null) {
             System.out.println("Enter customer ID (or 0 to exit):");
             try {
@@ -216,6 +227,7 @@ public class MtBullerResort {
                     return null;
                 }
 
+                //search customer by ID
                 selected = searchCustomerByID(choice);
                 if (selected == null) {
                     System.out.println("Customer not found! Please try again.");
@@ -231,6 +243,7 @@ public class MtBullerResort {
         return selected;
     }
 
+    //returns a valid accommodation
     public Accommodation selectAccommodation() {
         Accommodation selected = null;
         listAvailableAccommodations();
@@ -260,6 +273,33 @@ public class MtBullerResort {
         return selected;
     }
 
+    public TravelPackage selectPackage() {
+        TravelPackage selected = null;
+        listPackages();
+
+        while (selected == null) {
+            System.out.println("Enter package ID (or 0 to exit):");
+            try {
+                int choice = input.nextInt();
+
+                if (choice == 0) {
+                    System.out.println("Action cancelled.");
+                    return null;
+                }
+
+                selected = searchPackageByID(choice);
+                if (selected == null) {
+                    System.out.println("Package not found! Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+                input.nextLine();
+            }
+        }
+        return selected;
+
+    }
+
     public Customer searchCustomerByID(int ID) {
         for (Customer customer : customers) {
             if (ID == customer.getID()) {
@@ -273,6 +313,15 @@ public class MtBullerResort {
         for (Accommodation accommodation : accommodations) {
             if (ID == accommodation.getID()) {
                 return accommodation;
+            }
+        }
+        return null;
+    }
+
+    public TravelPackage searchPackageByID(int ID) {
+        for (TravelPackage pkg : packages) {
+            if (ID == pkg.getID()) {
+                return pkg;
             }
         }
         return null;
