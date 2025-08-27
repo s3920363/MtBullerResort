@@ -57,6 +57,7 @@ public class MtBullerResort {
                     case 4 -> listCustomers();
                     case 5 -> addPackage();
                     case 6 -> listPackages();
+                    case 7 -> addLiftPass();
                     case 11 -> {
                         running = false;
                         System.out.println("Goodbye!");
@@ -147,6 +148,10 @@ public class MtBullerResort {
         for (TravelPackage pkg : packages) {
             System.out.println(pkg);
         }
+    }
+
+    public void addLiftPass() {
+        
     }
 
     public void addPackage() {
