@@ -1,7 +1,7 @@
 public class Customer {
     private static int nextID = 1;
     private final int custID = nextID++;
-    boolean hasPackage = false;
+    private boolean hasPackage = false;
     private String name;
     private String email;
     private String skillLevel;
@@ -53,11 +53,11 @@ public class Customer {
 
     @Override
     public String toString() {
-        // Construct and return a string that describes the customer.
         return String.format(
                 "{ id: %d, name: \"%s\", email: \"%s\", skillLevel: \"%s\" }",
                 custID, name, email, skillLevel
         );
     }
+
 
 }
