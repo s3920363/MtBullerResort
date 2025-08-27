@@ -8,6 +8,7 @@ public class TravelPackage {
     private Accommodation acc;
     private LocalDate date;
     private LiftPass liftPass;
+    private boolean hasLiftPass = false;
 
 
     public TravelPackage() {
@@ -56,6 +57,14 @@ public class TravelPackage {
 
     public void setLiftPass(LiftPass liftPass) {
         this.liftPass = liftPass;
+    }
+
+    public boolean getHasLiftPass() {
+        return hasLiftPass;
+    }
+
+    public void setHasLiftPass() {
+        this.hasLiftPass = true;
     }
 
     public double getTotalCost() {
