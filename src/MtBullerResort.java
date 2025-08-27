@@ -229,11 +229,13 @@ public class MtBullerResort {
 
                 //search customer by ID
                 selected = searchCustomerByID(choice);
-                if (selected == null) {
-                    System.out.println("Customer not found! Please try again.");
-                } else if (selected.inPackage()) {
+                //if found but already in package
+                if (selected != null && selected.inPackage()) {
                     System.out.println("Customer already has a package! Please select a different customer.");
                     selected = null;
+                } else {
+                    System.out.println("Customer not found! Please try again.");
+
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a valid number.");
@@ -259,6 +261,7 @@ public class MtBullerResort {
                 }
 
                 selected = searchAccommodationByID(choice);
+                //if found but is not available
                 if (selected != null && !selected.isAvailable()) {
                     System.out.println("Accommodation is not available! Please try again.");
                     selected = null;
@@ -288,7 +291,11 @@ public class MtBullerResort {
                 }
 
                 selected = searchPackageByID(choice);
-                if (selected == null) {
+                // if found but has lift pass
+                if (selected != null && selected.getHasLiftPass()) {
+                    System.out.println("Package already has a Lift Pass!");
+                    selected = null;
+                } else {
                     System.out.println("Package not found! Please try again.");
                 }
             } catch (InputMismatchException e) {
