@@ -7,6 +7,8 @@ public class TravelPackage {
     private Customer cust;
     private Accommodation acc;
     private LocalDate date;
+    private LiftPass liftPass;
+
 
     public TravelPackage() {
 
@@ -48,6 +50,21 @@ public class TravelPackage {
         this.days = days;
     }
 
+    public LiftPass getLiftPass() {
+        return liftPass;
+    }
+
+    public void setLiftPass(LiftPass liftPass) {
+        this.liftPass = liftPass;
+    }
+
+    public double getTotalCost() {
+        double totalCost = 0;
+        if (liftPass != null)
+            totalCost += liftPass.getCost();
+        return totalCost;
+    }
+
     @Override
     public String toString() {
         return String.format(
@@ -60,4 +77,3 @@ public class TravelPackage {
         );
     }
 }
-
