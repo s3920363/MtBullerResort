@@ -57,15 +57,13 @@ public class TravelPackage {
 
     public void setLiftPass(LiftPass liftPass) {
         this.liftPass = liftPass;
+        this.hasLiftPass = true;
     }
 
     public boolean getHasLiftPass() {
         return hasLiftPass;
     }
 
-    public void setHasLiftPass() {
-        this.hasLiftPass = true;
-    }
 
     public double getTotalCost() {
         double totalCost = 0;
@@ -76,13 +74,21 @@ public class TravelPackage {
 
     @Override
     public String toString() {
-        return String.format(
-                "Package %d { customer: \"%s\", accommodation: %s, date: %s, days: %d }",
+        String result = String.format(
+                "Package %d { customer: \"%s\", accommodation: %s, date: %s, days: %d, total cost: $%.2f }",
                 pkgID,
                 cust.getName(),
                 acc.getType(),
                 date,
-                days
+                days, getTotalCost()
         );
+
+        if (liftPass != null) {
+            result += "\n   " + liftPass.toString();
+        } else {
+            result += "\n   Lift Pass: None";
+        }
+
+        return result;
     }
 }
