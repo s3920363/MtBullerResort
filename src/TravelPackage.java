@@ -62,14 +62,14 @@ public class TravelPackage {
 
     public void setLiftPass(LiftPass liftPass) {
         this.liftPass = liftPass;
-        this.hasLiftPass = true;
+        this.hasLiftPass = true; //set lesson
     }
 
     public boolean getHasLiftPass() {
         return hasLiftPass;
     }
 
-    public void addLessons(Lessons lesson) {
+    public void setLessons(Lessons lesson) {
         this.lessons = lesson;
         this.hasLessons = true;
     }
