@@ -13,7 +13,7 @@ public class Lessons {
         this.cost = count * lessonPrice(level);
     }
 
-    private double lessonPrice(String level) {
+    public static double lessonPrice(String level) {
         return switch (level.toLowerCase()) {
             case "expert" -> 15.0;
             case "intermediate" -> 20.0;
