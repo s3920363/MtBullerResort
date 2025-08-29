@@ -1,6 +1,9 @@
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Accommodation implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private static int nextID = 101;
     private final int accID = nextID++;
     private String type;

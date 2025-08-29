@@ -1,17 +1,18 @@
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class TravelPackage implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private static int nextID = 1;
     private final int pkgID = nextID++;
     private int days;
     private Customer cust;
     private Accommodation acc;
     private LocalDate date;
-
     private LiftPass liftPass;
     private boolean hasLiftPass = false;
-
     private Lessons lessons;
     private boolean hasLessons = false;
 

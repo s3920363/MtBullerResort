@@ -1,6 +1,9 @@
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Lessons implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private int count;
     private double cost;
 
