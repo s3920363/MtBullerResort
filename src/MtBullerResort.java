@@ -264,18 +264,17 @@ public class MtBullerResort {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input, please enter a number.");
-                input.nextLine(); // clear buffer
+                input.nextLine();
             }
         }
 
-        // create Lessons object using the customer’s level and chosen count
         Lessons lessons = new Lessons(level, count);
 
         // attach to the package
         selectedPkg.setLessons(lessons);
 
         System.out.println("Lessons added successfully!");
-        System.out.println(selectedPkg); // show the package with updated total
+        System.out.println(selectedPkg);
     }
 
     public void addPackage() {
