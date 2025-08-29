@@ -7,8 +7,12 @@ public class TravelPackage {
     private Customer cust;
     private Accommodation acc;
     private LocalDate date;
+
     private LiftPass liftPass;
     private boolean hasLiftPass = false;
+
+    private Lessons lessons;
+    private boolean hasLessons = false;
 
 
     public TravelPackage() {
@@ -65,6 +69,15 @@ public class TravelPackage {
         return hasLiftPass;
     }
 
+    public void addLessons(Lessons lesson) {
+        this.lessons = lesson;
+        this.hasLessons = true;
+    }
+
+    public boolean getHasLessons() {
+        return hasLessons;
+    }
+
 
     public double getTotalCost() {
         double totalCost = 0;
@@ -75,6 +88,10 @@ public class TravelPackage {
 
         if (liftPass != null) {
             totalCost += liftPass.getCost();
+        }
+
+        if (lessons != null) {
+            totalCost += lessons.getCost();
         }
 
         return totalCost;
@@ -90,11 +107,18 @@ public class TravelPackage {
                 date,
                 days, getTotalCost()
         );
-        //accesses lift pass toString
+        //append lift pass
         if (liftPass != null) {
             result += "\n   " + liftPass;
         } else {
             result += "\n   Lift Pass: None";
+        }
+
+        //append lessons
+        if (lessons != null) {
+            result += "\n   " + lessons;
+        } else {
+            result += "\n   Lessons: None";
         }
 
         return result;
