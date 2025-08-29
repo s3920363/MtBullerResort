@@ -92,7 +92,7 @@ public class TravelPackage {
         );
         //accesses lift pass toString
         if (liftPass != null) {
-            result += "\n   " + liftPass.toString();
+            result += "\n   " + liftPass;
         } else {
             result += "\n   Lift Pass: None";
         }
