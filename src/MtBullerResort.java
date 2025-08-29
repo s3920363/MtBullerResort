@@ -186,7 +186,7 @@ public class MtBullerResort {
             return;
         }
 
-        LiftPass pass = null;
+        LiftPass pass;
 
         while (true) {
             try {
@@ -327,7 +327,7 @@ public class MtBullerResort {
         System.out.println("3. Filter by price");
         System.out.print("Enter option: ");
 
-        int filterOption = -1;
+        int filterOption;
         try {
             filterOption = input.nextInt();
             input.nextLine();
