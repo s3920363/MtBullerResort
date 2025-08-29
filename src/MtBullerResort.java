@@ -333,37 +333,29 @@ public class MtBullerResort {
     }
 
     public void writePackages() {
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
-
-        try {
-            fos = new FileOutputStream("packages.dat");
-            oos = new ObjectOutputStream(fos);
+        try (FileOutputStream fos = new FileOutputStream("packages.dat");
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             oos.writeObject(packages);
             System.out.println("Packages saved successfully.");
 
         } catch (Exception e) {
             System.out.println("Error writing packages: " + e.getMessage());
-            ;
         }
     }
 
     public void readPackages() {
         packages.clear();
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
 
-        try {
-            fis = new FileInputStream("packages.dat");
-            ois = new ObjectInputStream(fis);
+        try (FileInputStream fis = new FileInputStream("packages.dat");
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+
             packages = (ArrayList<TravelPackage>) ois.readObject();
             System.out.println("Packages loaded successfully.");
 
         } catch (Exception e) {
             System.out.println("Error reading packages: " + e.getMessage());
         }
-
     }
 
     //returns a valid customer
