@@ -18,16 +18,19 @@ public class MtBullerResort {
         customers.add(new Customer("Bob", "bob@hotmail.com", "intermediate"));
         customers.add(new Customer("Diana", "diana@outlook.com", "expert"));
 
-        accommodations.add(new Accommodation("Hotel", 300));
-        accommodations.add(new Accommodation("Apartment", 220));
-        accommodations.add(new Accommodation("Lodge", 180));
-        accommodations.add(new Accommodation("Cabin", 140));
-        accommodations.add(new Accommodation("Hotel", 400));
-        accommodations.add(new Accommodation("Apartment", 275));
-        accommodations.add(new Accommodation("Lodge", 210));
-        accommodations.add(new Accommodation("Cabin", 160));
-        accommodations.add(new Accommodation("Hotel", 350));
-        accommodations.add(new Accommodation("Apartment", 260));
+        accommodations.add(new Accommodation("hotel", 300));
+        accommodations.add(new Accommodation("apartment", 220));
+        accommodations.add(new Accommodation("lodge", 180));
+        accommodations.add(new Accommodation("cabin", 140));
+        accommodations.add(new Accommodation("hotel", 400));
+        accommodations.add(new Accommodation("apartment", 275));
+        accommodations.add(new Accommodation("lodge", 210));
+        accommodations.add(new Accommodation("cabin", 160));
+        accommodations.add(new Accommodation("hotel", 350));
+        accommodations.add(new Accommodation("apartment", 260));
+
+        packages.add(new TravelPackage(customers.getFirst(), LocalDate.now(), 3));
+        packages.getFirst().attachAccommodation(accommodations.getFirst());
 
     }
 
@@ -97,6 +100,36 @@ public class MtBullerResort {
         }
     }
 
+    public int listAccommodationByType(String type) {
+        System.out.println("\n----- Available Accommodations (" + type + ") -----");
+        int count = 0;
+        for (Accommodation accommodation : accommodations) {
+            if (accommodation.getType().equalsIgnoreCase(type) && accommodation.isAvailable()) {
+                System.out.println(accommodation);
+                count++;
+            }
+        }
+        if (count == 0) {
+            System.out.println("No accommodations found for type: " + type);
+        }
+        return count;
+    }
+
+    public int listAccommodationByPrice(double price) {
+        System.out.println("\n----- Available Accommodations (Max $" + price + ") -----");
+        int count = 0;
+        for (Accommodation accommodation : accommodations) {
+            if (accommodation.getPrice() <= price && accommodation.isAvailable()) {
+                System.out.println(accommodation);
+                count++;
+            }
+        }
+        if (count == 0) {
+            System.out.println("No accommodations found under $" + price);
+        }
+        return count;
+    }
+
     public void addCustomer() {
         boolean valid = false;
 
@@ -115,7 +148,7 @@ public class MtBullerResort {
                 if (name.isEmpty() || email.isEmpty() || skillLevel.isEmpty()) {
                     throw new IllegalArgumentException("All fields must be filled.");
                 }
-                
+
                 // skill check
                 if (!(skillLevel.equals("beginner") || skillLevel.equals("intermediate") || skillLevel.equals("expert"))) {
                     throw new IllegalArgumentException("Skill level must be Beginner, Intermediate, or Expert.");
@@ -233,7 +266,6 @@ public class MtBullerResort {
                     TravelPackage newPackage = new TravelPackage(selectedCustomer, travelDate, days);
                     newPackage.attachAccommodation(selectedAccommodation);
                     packages.add(newPackage);
-                    selectedCustomer.setHasPackage();
 
                     System.out.println("Package created successfully!");
                     System.out.println(newPackage);
@@ -284,10 +316,89 @@ public class MtBullerResort {
         return selected;
     }
 
-    //returns a valid accommodation
+    //returns valid accommodation with filtering
     public Accommodation selectAccommodation() {
         Accommodation selected = null;
-        listAvailableAccommodations();
+
+        //filter options
+        System.out.println("Choose accommodation by:");
+        System.out.println("1. Show all available");
+        System.out.println("2. Filter by type");
+        System.out.println("3. Filter by price");
+        System.out.print("Enter option: ");
+
+        int filterOption = -1;
+        try {
+            filterOption = input.nextInt();
+            input.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input, defaulting to show all.");
+            input.nextLine();
+            filterOption = 1;
+        }
+
+        // Apply chosen filter
+        switch (filterOption) {
+            case 1:
+                listAvailableAccommodations();
+                break;
+            case 2:
+                String type = "";
+                boolean validType = false;
+
+                while (!validType) {
+                    System.out.print("Enter type (Hotel/Lodge/Apartment/Cabin) or 0 to exit: ");
+                    type = input.nextLine().trim();
+
+                    if (type.equals("0")) {
+                        System.out.println("Package creation cancelled.");
+                        return null;
+                    }
+
+                    if (type.equalsIgnoreCase("hotel") ||
+                            type.equalsIgnoreCase("lodge") ||
+                            type.equalsIgnoreCase("apartment") ||
+                            type.equalsIgnoreCase("cabin")) {
+                        validType = true;
+                    } else {
+                        System.out.println("Invalid type! Please enter one of the listed options.");
+                    }
+                }
+
+                int typeCount = listAccommodationByType(type);
+                if (typeCount == 0) {
+                    return null; //if no matches, exit
+                }
+                break;
+
+
+            case 3:
+                double price = -1;
+                while (price <= 0) {
+                    try {
+                        System.out.print("Enter max price (must be > 0): ");
+                        price = input.nextDouble();
+                        input.nextLine();
+
+                        if (price <= 0) {
+                            System.out.println("Price must be greater than 0. Try again.");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input! Please enter a number.");
+                        input.nextLine(); // clear invalid input
+                        price = -1; // force loop to continue
+                    }
+                }
+                int priceCount = listAccommodationByPrice(price);
+                if (priceCount == 0) {
+                    return null; //if no matches, exit
+                }
+                break;
+            default:
+                System.out.println("Invalid option, showing all.");
+                listAvailableAccommodations();
+        }
+
 
         while (selected == null) {
             System.out.println("Enter accommodation ID (or 0 to exit):");
@@ -316,12 +427,13 @@ public class MtBullerResort {
         return selected;
     }
 
+    //returns valid package
     public TravelPackage selectPackage() {
         TravelPackage selected = null;
         listPackages();
 
         while (selected == null) {
-            System.out.println("Enter package ID (or 0 to exit):");
+            System.out.print("Enter package ID (or 0 to exit): ");
             try {
                 int choice = input.nextInt();
                 input.nextLine();
