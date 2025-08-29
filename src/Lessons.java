@@ -1,0 +1,32 @@
+public class Lessons {
+    private String level;
+    private int count;
+    private double cost;
+
+    public Lessons() {
+
+    }
+
+    public Lessons(String level, int count) {
+        this.level = level;
+        this.count = count;
+        this.cost = count * lessonPrice(level);
+    }
+
+    private double lessonPrice(String level) {
+        return switch (level.toLowerCase()) {
+            case "expert" -> 15.0;
+            case "intermediate" -> 20.0;
+            case "beginner" -> 25.0;
+            default -> throw new IllegalArgumentException("Invalid level");
+        };
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public String toString() {
+        return "Lessons: " + count + " × $" + (cost / count) + " = $" + cost;
+    }
+}
