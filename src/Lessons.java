@@ -1,7 +1,6 @@
 import java.io.Serializable;
 
 public class Lessons implements Serializable {
-    private String level;
     private int count;
     private double cost;
 
@@ -10,7 +9,6 @@ public class Lessons implements Serializable {
     }
 
     public Lessons(String level, int count) {
-        this.level = level;
         this.count = count;
         this.cost = count * lessonPrice(level);
     }
