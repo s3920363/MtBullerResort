@@ -29,6 +29,6 @@ public class Lessons implements Serializable {
     }
 
     public String toString() {
-        return "Lessons: " + count + " × $" + (cost / count) + " = $" + cost;
+        return "Lessons: " + count + " x $" + (cost / count) + " = $" + cost;
     }
 }
