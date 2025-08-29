@@ -19,12 +19,13 @@ public class TravelPackage {
         this.cust = cust;
         this.date = date;
         this.days = days;
+        cust.setHasPackage(); //set customer package status
     }
 
 
     public void attachAccommodation(Accommodation acc) {
         this.acc = acc;
-        acc.setAvailable(false);
+        acc.setAvailable(false); //change attached accommodation to unavailable
     }
 
     public int getID() {
@@ -67,8 +68,15 @@ public class TravelPackage {
 
     public double getTotalCost() {
         double totalCost = 0;
-        if (liftPass != null)
+
+        if (acc != null) {
+            totalCost += acc.getPrice();
+        }
+
+        if (liftPass != null) {
             totalCost += liftPass.getCost();
+        }
+
         return totalCost;
     }
 
@@ -82,7 +90,7 @@ public class TravelPackage {
                 date,
                 days, getTotalCost()
         );
-
+        //accesses lift pass toString
         if (liftPass != null) {
             result += "\n   " + liftPass.toString();
         } else {
