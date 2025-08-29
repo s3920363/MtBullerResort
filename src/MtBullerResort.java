@@ -1,3 +1,7 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -66,6 +70,8 @@ public class MtBullerResort {
                     case 6 -> listPackages();
                     case 7 -> addLiftPass();
                     case 8 -> addLessons();
+                    case 9 -> writePackages();
+                    case 10 -> readPackages();
                     case 11 -> {
                         running = false;
                         System.out.println("Goodbye!");
@@ -324,6 +330,40 @@ public class MtBullerResort {
                 days = -1; // keep looping
             }
         }
+    }
+
+    public void writePackages() {
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+
+        try {
+            fos = new FileOutputStream("packages.dat");
+            oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(packages);
+            System.out.println("Packages saved successfully.");
+
+        } catch (Exception e) {
+            System.out.println("Error writing packages: " + e.getMessage());
+            ;
+        }
+    }
+
+    public void readPackages() {
+        packages.clear();
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+
+        try {
+            fis = new FileInputStream("packages.dat");
+            ois = new ObjectInputStream(fis);
+            packages = (ArrayList<TravelPackage>) ois.readObject();
+            System.out.println("Packages loaded successfully.");
+
+        } catch (Exception e) {
+            System.out.println("Error reading packages: " + e.getMessage());
+        }
+
     }
 
     //returns a valid customer
