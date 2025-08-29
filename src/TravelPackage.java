@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class TravelPackage {
+public class TravelPackage implements Serializable {
     private static int nextID = 1;
     private final int pkgID = nextID++;
     private int days;

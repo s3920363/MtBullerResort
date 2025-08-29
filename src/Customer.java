@@ -1,4 +1,6 @@
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
     private static int nextID = 1;
     private final int custID = nextID++;
     private boolean hasPackage = false;

@@ -1,4 +1,6 @@
-public class Lessons {
+import java.io.Serializable;
+
+public class Lessons implements Serializable {
     private String level;
     private int count;
     private double cost;

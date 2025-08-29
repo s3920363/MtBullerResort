@@ -1,4 +1,6 @@
-public class LiftPass {
+import java.io.Serializable;
+
+public class LiftPass implements Serializable {
     private String type;
     private int days;
     private double cost;

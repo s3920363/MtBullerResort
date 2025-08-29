@@ -1,4 +1,6 @@
-public class Accommodation {
+import java.io.Serializable;
+
+public class Accommodation implements Serializable {
     private static int nextID = 101;
     private final int accID = nextID++;
     private String type;
