@@ -46,7 +46,10 @@ public class MtBullerResort {
                 System.out.println("4. List all customers");
                 System.out.println("5. Create a package");
                 System.out.println("6. List all packages");
-                System.out.println("7. Add a Lift Pass");
+                System.out.println("7. Add a Lift Pass to a package");
+                System.out.println("8. Add Lessons to a package");
+                System.out.println("9. Save packages to a file");
+                System.out.println("10. Read packages from a file");
                 System.out.println("11. Quit");
 
                 System.out.print("\nPlease choose an option: ");
@@ -62,6 +65,7 @@ public class MtBullerResort {
                     case 5 -> addPackage();
                     case 6 -> listPackages();
                     case 7 -> addLiftPass();
+                    case 8 -> addLessons();
                     case 11 -> {
                         running = false;
                         System.out.println("Goodbye!");
@@ -225,6 +229,9 @@ public class MtBullerResort {
         selectedPkg.setLiftPass(pass);
         System.out.println("Lift pass added successfully!");
         System.out.println(selectedPkg);
+    }
+
+    public void addLessons() {
     }
 
     public void addPackage() {
