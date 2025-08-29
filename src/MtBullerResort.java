@@ -200,7 +200,7 @@ public class MtBullerResort {
 
         System.out.println("----- Lift Pass Pricing -----");
         System.out.println("Full Day: $26");
-        System.out.println("5 Day Pass: $117 (%10 off)");
+        System.out.println("5 Day Pass: $117 (10% off)");
         System.out.println("Season: $200");
         System.out.println("-----------------------------");
 
@@ -326,7 +326,7 @@ public class MtBullerResort {
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a valid number.");
                 input.nextLine(); // clear invalid input
-                days = -1; // keep looping
+                days = -1;
             }
         }
     }
@@ -350,6 +350,22 @@ public class MtBullerResort {
              ObjectInputStream ois = new ObjectInputStream(fis)) {
 
             packages = (ArrayList<TravelPackage>) ois.readObject();
+
+            //restores customer and acc flags
+            for (TravelPackage pkg : packages) {
+                //find actual customer
+                Customer realCustomer = searchCustomerByID(pkg.getCustomer().getID());
+                if (realCustomer != null) {
+                    realCustomer.setHasPackage();
+                }
+
+                //find actual accommodation
+                Accommodation realAcc = searchAccommodationByID(pkg.getAccommodation().getID());
+                if (realAcc != null) {
+                    realAcc.setAvailable(false);
+                }
+            }
+
             System.out.println("Packages loaded successfully.");
 
         } catch (Exception e) {
