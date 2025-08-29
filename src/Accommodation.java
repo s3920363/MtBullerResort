@@ -2,7 +2,7 @@ public class Accommodation {
     private static int nextID = 101;
     private final int accID = nextID++;
     private String type;
-    private int price;
+    private double price;
     private boolean available = true;
 
     public Accommodation() {
@@ -27,11 +27,11 @@ public class Accommodation {
         this.type = type;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -46,7 +46,7 @@ public class Accommodation {
     @Override
     public String toString() {
         return String.format(
-                "{ id: %d, type: \"%s\", price: %d, available: %b }",
+                "{ id: %d, type: \"%s\", price: $%.2f, available: %b }",
                 accID, type, price, available
         );
     }
