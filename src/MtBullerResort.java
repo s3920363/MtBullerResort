@@ -185,7 +185,7 @@ public class MtBullerResort {
     }
 
     public void addLiftPass() {
-        TravelPackage selectedPkg = selectPackage();
+        TravelPackage selectedPkg = selectPackage(false);
         if (selectedPkg == null) {
             return;
         }
@@ -232,6 +232,38 @@ public class MtBullerResort {
     }
 
     public void addLessons() {
+        TravelPackage selectedPkg = selectPackage(true);
+        if (selectedPkg == null) {
+            return;
+        }
+
+        String level = selectedPkg.getCustomer().getSkillLevel();
+        System.out.printf("The selected customer has skill level '%s'. Lessons will be $%.0f each.\n", level, Lessons.lessonPrice(level));
+
+        System.out.print("Enter number of lessons: ");
+        int count = -1;
+        while (count <= 0) {
+            try {
+                count = input.nextInt();
+                input.nextLine();
+
+                if (count <= 0) {
+                    System.out.println("Please enter a positive number of lessons.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input, please enter a number.");
+                input.nextLine(); // clear buffer
+            }
+        }
+
+        // create Lessons object using the customer’s level and chosen count
+        Lessons lessons = new Lessons(level, count);
+
+        // attach to the package
+        selectedPkg.setLessons(lessons);
+
+        System.out.println("Lessons added successfully!");
+        System.out.println(selectedPkg); // show the package with updated total
     }
 
     public void addPackage() {
@@ -434,8 +466,8 @@ public class MtBullerResort {
         return selected;
     }
 
-    //returns valid package
-    public TravelPackage selectPackage() {
+    //returns valid package for either lift pass or lessons
+    public TravelPackage selectPackage(boolean forLessons) {
         TravelPackage selected = null;
         listPackages();
 
@@ -451,20 +483,28 @@ public class MtBullerResort {
                 }
 
                 selected = searchPackageByID(choice);
-                // if found but has lift pass
                 if (selected == null) {
                     System.out.println("Package not found! Please try again.");
-                } else if (selected.getHasLiftPass()) {
+                    continue;
+                }
+                //lift pass check
+                if (!forLessons && selected.getHasLiftPass()) {
                     System.out.println("Package already has a Lift Pass!");
                     selected = null;
+                    continue;
                 }
+                //lesson check
+                if (forLessons && selected.getHasLessons()) {
+                    System.out.println("Package already has Lessons!");
+                    selected = null;
+                }
+
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a valid number.");
                 input.nextLine();
             }
         }
         return selected;
-
     }
 
     public Customer searchCustomerByID(int ID) {
