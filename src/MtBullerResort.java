@@ -362,7 +362,6 @@ public class MtBullerResort {
                     realAcc.setAvailable(false);
                 }
             }
-
             System.out.println("Packages loaded successfully.");
 
         } catch (FileNotFoundException e) {
