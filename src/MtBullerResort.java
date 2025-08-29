@@ -1,7 +1,4 @@
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -368,6 +365,8 @@ public class MtBullerResort {
 
             System.out.println("Packages loaded successfully.");
 
+        } catch (FileNotFoundException e) {
+            System.out.println("packages.dat does not exist!");
         } catch (Exception e) {
             System.out.println("Error reading packages: " + e.getMessage());
         }
