@@ -558,7 +558,7 @@ public class MtBullerResort {
         listPackages();
 
         while (selected == null) {
-            System.out.print("Enter package ID (or 0 to exit): ");
+            System.out.print("Enter package number (or 0 to exit): ");
             try {
                 int choice = input.nextInt();
                 input.nextLine();
