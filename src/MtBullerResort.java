@@ -376,10 +376,13 @@ public class MtBullerResort {
     //read packages with name input
     public void readPackages() {
         packages.clear();
-        System.out.print("Enter file name: ");
-
+        System.out.print("Enter the file name (blank for packages.dat): ");
         String name = input.nextLine().trim().toLowerCase();
-        if (!name.endsWith(".dat")) {
+
+        //default to packages.dat if no input
+        if (name.isEmpty()) {
+            name = "packages.dat";
+        } else if (!name.endsWith(".dat")) {
             name += ".dat";
         }
 
@@ -399,6 +402,7 @@ public class MtBullerResort {
                 if (a != null) a.setAvailable(false);
             }
             System.out.println("Packages loaded from " + f.getName());
+            listPackages();
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + name);
         } catch (Exception e) {
