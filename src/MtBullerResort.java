@@ -32,7 +32,6 @@ public class MtBullerResort {
 
         packages.add(new TravelPackage(customers.getFirst(), LocalDate.now(), 3));
         packages.getFirst().attachAccommodation(accommodations.getFirst());
-
     }
 
     public void run() {
@@ -99,11 +98,17 @@ public class MtBullerResort {
 
     public void listAvailableAccommodations() {
         System.out.println("\n----- Available Accommodations -----");
+        boolean foundAvailable = false;
+
         for (Accommodation accommodation : accommodations) {
             if (accommodation.isAvailable()) {
                 System.out.println(accommodation);
+                foundAvailable = true;
             }
+        }
 
+        if (!foundAvailable) {
+            System.out.println("There is no available accommodation!");
         }
     }
 
@@ -330,10 +335,13 @@ public class MtBullerResort {
 
     //save packages with name input
     public void writePackages() {
-        System.out.print("Enter the file name: ");
+        System.out.print("Enter the file name (blank for packages.dat): ");
         String fileName = input.nextLine().trim();
 
-        if (!fileName.endsWith(".dat")) {
+        //default to packages.dat if no input
+        if (fileName.isEmpty()) {
+            fileName = "packages.dat";
+        } else if (!fileName.endsWith(".dat")) {
             fileName += ".dat";
         }
 
