@@ -328,44 +328,71 @@ public class MtBullerResort {
         }
     }
 
+    //save packages with name input
     public void writePackages() {
-        try (FileOutputStream fos = new FileOutputStream("packages.dat");
+        System.out.print("Enter the file name: ");
+        String fileName = input.nextLine().trim();
+
+        if (!fileName.endsWith(".dat")) {
+            fileName += ".dat";
+        }
+
+        File file = new File(fileName);
+        if (file.exists()) {
+            String choice;
+            while (true) {
+                System.out.print(fileName + " already exists. Overwrite? (y/n): ");
+                choice = input.nextLine().trim().toLowerCase();
+                if (choice.equals("y") || choice.equals("n")) {
+                    break;
+                }
+                System.out.println("Please enter 'y' or 'n'.");
+            }
+            if (choice.equals("n")) {
+                System.out.println("Save cancelled.");
+                return;
+            }
+        }
+
+        try (FileOutputStream fos = new FileOutputStream(fileName);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             oos.writeObject(packages);
-            System.out.println("Packages saved successfully.");
+            System.out.println("Packages saved successfully to " + fileName);
 
         } catch (Exception e) {
             System.out.println("Error writing packages: " + e.getMessage());
         }
     }
 
+    //read packages with name input
     public void readPackages() {
         packages.clear();
+        System.out.print("Enter file name: ");
 
-        try (FileInputStream fis = new FileInputStream("packages.dat");
-             ObjectInputStream ois = new ObjectInputStream(fis)) {
+        String name = input.nextLine().trim().toLowerCase();
+        if (!name.endsWith(".dat")) {
+            name += ".dat";
+        }
 
+        File f = new File(name);
+        if (!f.exists()) {
+            System.out.println("No such file: " + name);
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
             packages = (ArrayList<TravelPackage>) ois.readObject();
 
-            //restores customer and acc flags
             for (TravelPackage pkg : packages) {
-                //find actual customer
-                Customer realCustomer = searchCustomerByID(pkg.getCustomer().getID());
-                if (realCustomer != null) {
-                    realCustomer.setHasPackage();
-                }
-
-                //find actual accommodation
-                Accommodation realAcc = searchAccommodationByID(pkg.getAccommodation().getID());
-                if (realAcc != null) {
-                    realAcc.setAvailable(false);
-                }
+                Customer c = searchCustomerByID(pkg.getCustomer().getID());
+                if (c != null) c.setHasPackage();
+                Accommodation a = searchAccommodationByID(pkg.getAccommodation().getID());
+                if (a != null) a.setAvailable(false);
             }
-            System.out.println("Packages loaded successfully.");
-
+            System.out.println("Packages loaded from " + f.getName());
         } catch (FileNotFoundException e) {
-            System.out.println("packages.dat does not exist!");
+            System.out.println("File not found: " + name);
         } catch (Exception e) {
             System.out.println("Error reading packages: " + e.getMessage());
         }
