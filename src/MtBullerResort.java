@@ -161,7 +161,7 @@ public class MtBullerResort {
                     throw new IllegalArgumentException("All fields must be filled.");
                 }
 
-                // skill check
+                //keep asking until valid skill level is entered
                 if (!(skillLevel.equals("beginner") || skillLevel.equals("intermediate") || skillLevel.equals("expert"))) {
                     throw new IllegalArgumentException("Skill level must be Beginner, Intermediate, or Expert.");
                 }
@@ -346,6 +346,7 @@ public class MtBullerResort {
         }
 
         File file = new File(fileName);
+        //overwrite confirmation
         if (file.exists()) {
             String choice;
             while (true) {
@@ -375,6 +376,7 @@ public class MtBullerResort {
 
     //read packages with name input
     public void readPackages() {
+        //clear existing packages before loading from file
         packages.clear();
         System.out.print("Enter the file name (blank for packages.dat): ");
         String name = input.nextLine().trim().toLowerCase();
@@ -394,6 +396,8 @@ public class MtBullerResort {
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
             packages = (ArrayList<TravelPackage>) ois.readObject();
+
+            //update customer and accommodation status after loading packages
 
             for (TravelPackage pkg : packages) {
                 Customer c = searchCustomerByID(pkg.getCustomer().getID());
@@ -433,7 +437,8 @@ public class MtBullerResort {
 
                 if (selected == null) {
                     System.out.println("Customer not found! Please try again.");
-                } else if (selected.inPackage()) {
+                } else if (selected.inPackage()) { //customer can only have one active package
+
                     System.out.println("Customer already has a package! Please select a different customer.");
                     selected = null;
                 }
@@ -577,13 +582,13 @@ public class MtBullerResort {
                     System.out.println("Package not found! Please try again.");
                     continue;
                 }
-                //lift pass check
+                //check if package already has lift pass
                 if (!forLessons && selected.getHasLiftPass()) {
                     System.out.println("Package already has a Lift Pass!");
                     selected = null;
                     continue;
                 }
-                //lesson check
+                //check if package already has lessons
                 if (forLessons && selected.getHasLessons()) {
                     System.out.println("Package already has Lessons!");
                     selected = null;
