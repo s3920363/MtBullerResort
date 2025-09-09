@@ -401,7 +401,16 @@ public class MtBullerResort {
 
             for (TravelPackage pkg : packages) {
                 Customer c = searchCustomerByID(pkg.getCustomer().getID());
-                if (c != null) c.setHasPackage();
+                if (c != null) {
+                    c.setHasPackage();
+                } else {
+                    //add customer if not in current list (does not replace existing id)
+                    Customer newCustomer = pkg.getCustomer();
+                    newCustomer.setHasPackage();
+                    customers.add(newCustomer);
+                    System.out.println("Added customer: " + newCustomer);
+                }
+
                 Accommodation a = searchAccommodationByID(pkg.getAccommodation().getID());
                 if (a != null) a.setAvailable(false);
             }
