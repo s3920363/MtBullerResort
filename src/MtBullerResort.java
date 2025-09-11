@@ -280,11 +280,13 @@ public class MtBullerResort {
     }
 
     public void addPackage() {
+        //select customer object
         Customer selectedCustomer = selectCustomer();
         if (selectedCustomer == null) {
             return;
         }
-
+        
+        //select accommodation object
         Accommodation selectedAccommodation = selectAccommodation();
         if (selectedAccommodation == null) {
             return;
